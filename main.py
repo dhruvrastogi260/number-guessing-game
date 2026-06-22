@@ -1,4 +1,7 @@
 import random
+import time
+from stopwatch import Stopwatch
+import stopwatch
 
 print(""" 
 Welcome to the Number Guessing Game!
@@ -39,6 +42,9 @@ while True:
 
     print(f"Great! your level is {level} with {chances} chances,\nLet's start the game!")
 
+    record = Stopwatch()
+    record.start()
+
     for i in range(1,(chances+1)):
         while True:
             try:
@@ -48,21 +54,23 @@ while True:
                 print("Please enter a number for the guess")
 
         if guess == number:
-            print(f"you win!!!\nIn {i} attempts")
+            record.stop()
+            print(f"You WIN!!!🏆🥳🙌\nIn {i} attempts and {round(record.elapsed,2)}sec")
             break
 
         elif guess > number:
-            print(f"you need to guess lower")
+            print(f"You need to guess LOWER👇")
             
         elif guess < number:
-            print(f"you need to guess higher")
+            print(f"You need to guess HIGHER👆")
 
     else:
-        print(f"you loser\ncan\'t even guess in {i}")
+        record.stop()
+        print(f"You Loser🤡\nCan\'t even guess in {i} attempts and {round(record.elapsed,2)}sec")
 
 
     while True :
-        rematch = input("\ndo you wanna rematch \nIf yes send \'y\'\nIf no send\'n\' \n????: ")
+        rematch = input("\nDo You Wanna Rematch?? \nIf yes send \'y\'\nIf no send\'n\' \n????: ")
         if rematch in ["y","n","yes","no"]:
             break
         else:
