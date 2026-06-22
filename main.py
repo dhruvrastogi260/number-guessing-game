@@ -11,55 +11,62 @@ Please select the difficulty level:
 3. Hard (5 chances)
 """)
 
-def lod_to_chances(a = ""):
+def lod_to_chances():
+    while True :
+        lod = (input(f"\nEnter level of difficulty: "))
 
-    global lod
+        try:
+            if int(lod) == 1:
+                return 15,"easy"
 
-    global gamemode
+            elif int(lod) == 2:
+                return 10,"medium"
+                
 
-    lod = (input(f"\nEnter {a}level of difficulty: "))
-
-    try:
-        if int(lod) == 1:
-            lod = 15
-            gamemode = "easy with 15 chances"
-
-        elif int(lod) == 2:
-            lod = 10 
-            gamemode = "medium with 10 chances"
-
-        elif int(lod) == 3:
-            lod = 5
-            gamemode = "hard with 5 chances"
-
-        else:
-            lod_to_chances("valid ")
-
-    except ValueError:
-        print("an error occured\nPlease")
-        lod_to_chances("valid ")
+            elif int(lod) == 3:
+                return 5,"hard"
+                
+            else :
+                print("an error occured\nPlease")
+        except ValueError:
+            print("an error occured\nPlease")
+        
 
 while True:
     number = random.randint(1,100)
 
-    lod_to_chances()
+    chances,level = lod_to_chances()
 
-    print(f"Great! your level is {gamemode}\nLet's start the game!")
+    print(f"Great! your level is {level} with {chances} chances,\nLet's start the game!")
 
-    for i in range(1,int(lod)+1):
-        guess = int(input("\nenter your guess: "))
+    for i in range(1,(chances+1)):
+        while True:
+            try:
+                guess = int(input("\nenter your guess: "))
+                break
+            except ValueError:
+                print("Please enter a number for the guess")
+
         if guess == number:
             print(f"you win!!!\nIn {i} attempts")
             break
+
         elif guess > number:
             print(f"you need to guess lower")
             
         elif guess < number:
             print(f"you need to guess higher")
+
     else:
         print(f"you loser\ncan\'t even guess in {i}")
 
-    rematch = input("\ndo you wanna rematch \nIf yes send \'y\'\nIf no send\'n\' \n????: ")
+
+    while True :
+        rematch = input("\ndo you wanna rematch \nIf yes send \'y\'\nIf no send\'n\' \n????: ")
+        if rematch in ["y","n","yes","no"]:
+            break
+        else:
+            print("give a valid response that i understand")
 
     if rematch.lower() == "y" or rematch.lower() == "yes":
         continue
