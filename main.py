@@ -1,7 +1,5 @@
 import random
-import time
-from stopwatch import Stopwatch
-import stopwatch
+from stopwatch import Stopwatch #stopwatch is external module: pip install stopwatch
 
 print(""" 
 Welcome to the Number Guessing Game!
@@ -31,6 +29,7 @@ def lod_to_chances():
                 
             else :
                 print("an error occured\nPlease")
+
         except ValueError:
             print("an error occured\nPlease")
         
@@ -39,23 +38,37 @@ while True:
     number = random.randint(1,100)
 
     chances,level = lod_to_chances()
-
+    
     print(f"Great! your level is {level} with {chances} chances,\nLet's start the game!")
 
     record = Stopwatch()
     record.start()
 
     for i in range(1,(chances+1)):
+
         while True:
             try:
                 guess = int(input("\nenter your guess: "))
                 break
+
             except ValueError:
                 print("Please enter a number for the guess")
 
         if guess == number:
             record.stop()
+
             print(f"You WIN!!!🏆🥳🙌\nIn {i} attempts and {round(record.elapsed,2)}sec")
+
+            try:
+                with open(f"{level}_score.txt","r") as f:
+                    high_score = int(f.read())
+            except (FileNotFoundError,ValueError):
+                high_score = 999
+
+            if high_score >= i:
+                with open(f"{level}_score.txt","w") as f:
+                    f.write(str(i))
+                    print(f"BOOOOOOM!!!!💥🎆🎇🍷\nyou have guess the in the fewest attempts in the {level} level.")
             break
 
         elif guess > number:
